@@ -1,0 +1,17 @@
+<form [formGroup]="form">
+  Community Members
+  <div class="form-group">
+    <label>Add Member</label>
+    <div class="row">
+      <div class="col col-8">
+        <input type="text" class="form-control" formControlName="email" />
+      </div>
+
+      <div class="col col-4">
+        <button type="submit" class="btn btn-primary" (click)="addMember(form)">
+          Add Member
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

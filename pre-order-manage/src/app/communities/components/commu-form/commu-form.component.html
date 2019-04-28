@@ -1,0 +1,50 @@
+<form [formGroup]="form">
+  <div class="form-group">
+    <label>Community Name</label>
+    <input type="text" class="form-control" formControlName="title" />
+  </div>
+  <div class="form-group">
+    <label>Description</label>
+    <textarea
+      class="form-control"
+      rows="3"
+      formControlName="description"
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Community Cover</label>
+    <input
+      type="file"
+      accept="image/png, image/jpeg, image/jpg"
+      class="form-control-file"
+      (change)="detectUpload($event)"
+    />
+  </div>
+
+  <commu-cover-preview [coverUrl]="preview_cover"></commu-cover-preview>
+  <button
+    *ngIf="!exists"
+    type="submit"
+    class="btn btn-primary"
+    (click)="createCommunity(form)"
+  >
+    Create Community
+  </button>
+  <button
+    *ngIf="exists"
+    type="submit"
+    class="btn btn-secondary"
+    (click)="updateCommunity(form)"
+  >
+    Save changes
+  </button>
+  <button
+    *ngIf="exists"
+    type="button"
+    class="btn btn-danger"
+    (click)="removeCommunity(form)"
+  >
+    Delete Community
+  </button>
+</form>

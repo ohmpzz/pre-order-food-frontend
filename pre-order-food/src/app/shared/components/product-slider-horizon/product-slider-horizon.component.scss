@@ -1,0 +1,17 @@
+.card_img_child {
+  max-height: 250px;
+  min-height: 151px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+  width: 151px;
+}
+
+.card-title {
+  font-size: 14px;
+  line-height: 1.5em;
+  overflow: hidden !important;
+  max-height: 3em !important;
+  text-overflow: ellipsis !important;
+}

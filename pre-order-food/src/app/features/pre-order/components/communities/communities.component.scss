@@ -1,0 +1,50 @@
+.card {
+  -webkit-transition: 0.2s ease-in-out transform;
+  transition: 0.2s ease-in-out transform;
+  &:hover {
+    -webkit-transform: translate(0, -2px);
+    -ms-transform: translate(0, -2px);
+    transform: translate(0, -2px);
+  }
+}
+
+.card_img {
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+  width: auto;
+}
+.card-title {
+  font-size: 1rem;
+  line-height: 1.5em;
+  overflow: hidden !important;
+  max-height: 3em !important;
+  text-overflow: ellipsis !important;
+}
+
+.card-text {
+  color: #aab2b7;
+  font-size: 0.8rem;
+  line-height: 1.5em;
+  overflow: hidden !important;
+  max-height: 4.5em !important;
+  text-overflow: ellipsis !important;
+}
+.check {
+  &.active {
+    background: #f5f5f5;
+    border: 1.5px solid #01807c;
+    &:after {
+      content: '';
+      border-radius: 50%;
+      background: #19b55f url(/assets/img/actions/checked.svg) no-repeat center
+        center;
+      width: 28px;
+      height: 28px;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-size: 10px;
+    }
+  }
+}

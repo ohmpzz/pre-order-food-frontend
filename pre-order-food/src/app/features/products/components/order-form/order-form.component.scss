@@ -1,0 +1,24 @@
+.order_form {
+  margin-top: 25px;
+
+  h4 {
+    margin-bottom: 15px;
+  }
+  &_field {
+    width: 350px;
+  }
+  &_qty {
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.2);
+  }
+  &_btn_order {
+    width: 90px;
+  }
+}
+
+.qty {
+  margin: 0 10px;
+}

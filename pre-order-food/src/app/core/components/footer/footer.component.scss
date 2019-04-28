@@ -1,0 +1,25 @@
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  line-height: 60px;
+  color: #fff;
+  background-color: #047a76;
+  text-align: center;
+}
+
+.scroll {
+  z-index: 2;
+  position: relative;
+  white-space: nowrap;
+  text-align: center;
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  li {
+    display: inline-block;
+    margin-left: 40px;
+  }
+}

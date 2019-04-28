@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules//bootstrap/scss/bootstrap.scss';
+@import '../node_modules//bootstrap/scss/bootstrap-grid.scss';
+
+
+.card_image {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  background-size: cover;height: 225px;
+}

@@ -1,0 +1,28 @@
+<!-- <p *ngFor="let m of members; let i = index">
+  {{ i + 1 }}. {{ m.name }}
+  <span>
+    <button
+      type="button"
+      class="btn btn-primary btn-sm"
+      (click)="removeMember(m.id)"
+    >
+      Remove
+    </button>
+  </span>
+</p> -->
+
+<div class="row">
+  <div class="col-4" *ngFor="let m of (community$ | async)?.members">
+    <div class="row">
+      <div class="col-2">
+        <img [src]="m.picture" class="user" alt="" />
+      </div>
+      <div class="col-10" style="padding-left:0">
+        <p>
+          {{ m.name }}
+          <span style="cursor: pointer" (click)="removeMember(m)">&times;</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

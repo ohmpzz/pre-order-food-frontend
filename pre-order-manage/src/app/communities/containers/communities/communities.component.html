@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col" style="text-align: end">
+      <button class="btn btn-primary" routerLink="./new">
+        Create Community
+      </button>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-4" *ngFor="let g of (groups$ | async)">
+      <commu-item
+        [group]="g"
+        (editRoute)="onEditRoute($event)"
+        (viewRoute)="onViewRoute($event)"
+      ></commu-item>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let g of mocks">
+      <commu-item
+        [group]="g"
+        (editRoute)="onEditRoute($event)"
+        (viewRoute)="onViewRoute($event)"
+      ></commu-item>
+    </div>
+  </div>
+</div>

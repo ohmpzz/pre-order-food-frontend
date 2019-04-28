@@ -1,0 +1,16 @@
+.album {
+  margin-top: 40px;
+
+  .img-thumbnail {
+    height: 90px;
+    width: 90px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center;
+    object-position: center;
+  }
+
+  img {
+    margin-right: 10px;
+  }
+}

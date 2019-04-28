@@ -1,0 +1,47 @@
+<ng-template #rt let-r="result" let-t="term">
+  <img [src]="r.picture" class="mr-1" style="width: 16px" />
+  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Member</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label for="search">Search</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Name Or Email User"
+          formControlName="search"
+          [ngbTypeahead]="searchTerm"
+          [resultTemplate]="rt"
+          [inputFormatter]="formatter"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Add
+    </button>
+  </div>
+</ng-template>
+
+<button class="btn btn-primary" (click)="open(content)">
+  Add Member
+</button>

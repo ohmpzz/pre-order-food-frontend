@@ -1,0 +1,35 @@
+<form class="form-signin" [formGroup]="form">
+  <div class="text-center mb-4">
+    <h1 class="h3 mb-3 font-weight-normal">Pre-order Food Management</h1>
+  </div>
+
+  <div class="form-label-group mb-3">
+    <label>Email address</label>
+    <input
+      type="email"
+      id="inputEmail"
+      class="form-control"
+      placeholder="Email address"
+      formControlName="email"
+    />
+  </div>
+
+  <div class="form-label-group mb-3">
+    <label>Password</label>
+    <input
+      type="password"
+      class="form-control"
+      placeholder="Password"
+      formControlName="password"
+    />
+  </div>
+
+  <button
+    class="btn btn-lg btn-primary btn-block"
+    type="button"
+    (click)="loginAdmin(form)"
+  >
+    Sign in
+  </button>
+  <p class="mt-5 mb-3 text-muted text-center">&copy; 2018</p>
+</form>

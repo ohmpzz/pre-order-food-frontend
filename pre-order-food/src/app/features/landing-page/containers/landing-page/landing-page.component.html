@@ -1,0 +1,80 @@
+<hero></hero>
+
+<div class="container" style="margin-top:25px">
+  <h2>พรีออเดอร์ล่าสุด</h2>
+  <hr />
+  <div class="row">
+    <div
+      class="col-md-4"
+      *ngFor="let i of (lastPreorder$ | async | slice: 0:1)"
+    >
+      <shared-product-slider [product]="i">
+        <a
+          [routerLink]="['/p', i.slug]"
+          class="btn btn-green-pine"
+          style="font-size: 12px;"
+        >
+          <span style="margin-right: 10px">
+            <i class="fas fa-shopping-cart"></i>
+          </span>
+          พรีออเดอร์
+        </a>
+      </shared-product-slider>
+    </div>
+    <div class="col-md-8 row">
+      <div
+        class="col-md-6"
+        *ngFor="let i of (lastPreorder$ | async | slice: 1:5)"
+      >
+        <shared-product-slider-horizon [product]="i">
+          <a
+            [routerLink]="['/p', i.slug]"
+            class="btn btn-green-pine"
+            style="font-size: 12px;"
+          >
+            <span style="margin-right: 10px">
+              <i class="fas fa-shopping-cart"></i>
+            </span>
+            พรีออเดอร์
+          </a>
+        </shared-product-slider-horizon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="margin-top:25px">
+  <h2>เปิดรับพรีออเดอร์ในหมู่บ้านของฉัน</h2>
+  <hr />
+  <div class="row">
+    <div
+      *ngFor="let i of (ownCommuPreorder$ | async | slice: 0:3)"
+      class="col-md-4"
+    >
+      <shared-product-slider [product]="i">
+        <a
+          [routerLink]="['/p', i.slug]"
+          class="btn btn-green-pine"
+          style="font-size: 12px;"
+        >
+          <span style="margin-right: 10px">
+            <i class="fas fa-shopping-cart"></i>
+          </span>
+          พรีออเดอร์
+        </a>
+      </shared-product-slider>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="margin-top:25px">
+  <h2>หมู่บ้านของฉัน</h2>
+  <hr />
+  <div class="row">
+    <div *ngFor="let i of (groups$ | async | slice: 0:3)" class="col-md-4">
+      <a [routerLink]="['/g', i._id]" class="group_link">
+        <shared-group-display [group]="i"></shared-group-display>
+      </a>
+    </div>
+  </div>
+</div>

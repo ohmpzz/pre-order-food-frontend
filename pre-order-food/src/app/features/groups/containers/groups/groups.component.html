@@ -1,0 +1,11 @@
+<div class="container" style="margin-top: 25px;">
+  <h2>กลุ่มหมู่บ้านทั้งหมด</h2>
+  <hr />
+  <div class="row">
+    <div *ngFor="let i of (groups$ | async)" class="col-md-4">
+      <a [routerLink]="['/g', i._id]" class="group_link">
+        <shared-group-display [group]="i"></shared-group-display>
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+.product_form {
+  margin-top: 25px;
+  &_field {
+    width: 350px;
+  }
+}
+
+.album {
+  margin: 40px 0;
+
+  .img-thumbnail {
+    height: 150px;
+    width: 150px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center;
+    object-position: center;
+  }
+
+  img {
+    margin-right: 10px;
+  }
+}
