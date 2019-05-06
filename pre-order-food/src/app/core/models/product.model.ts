@@ -1,5 +1,5 @@
 export interface Product {
-  _id?: string;
+  _id?: any;
   creationTime?: string;
   description?: string;
   lastUpdateTime?: string;

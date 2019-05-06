@@ -48,6 +48,7 @@ const PRE_ORDER_FORMATS = {
         <hr />
         <pre-order-products
           [products]="product$ | async"
+          (remove)="onRemoveProduct($event)"
           formControlName="productId"
         ></pre-order-products>
 
@@ -218,9 +219,18 @@ export class CreatePreOrderComponent implements OnInit {
           quantityLimit: parseInt(value.quantityLimit),
           ownerId: this.user.uid,
         })
-        .subscribe(res => {
-          this.router.navigate(['/preorders']);
+        .subscribe((res: any) => {
+          if (res.success) {
+            this.router.navigate(['/preorders']);
+          }
         });
+    }
+  }
+
+  onRemoveProduct(e: Product) {
+    const remove = confirm(`ต้องการลบ ${e.title}`);
+    if (remove) {
+      this.store.dispatch(new fromCoreStore.RemoveProductById(e));
     }
   }
 

@@ -26,36 +26,51 @@ import { Order } from '@app/core/models/order.model';
             ยกเลิกออเดอร์</span
           >
         </h5>
-        <p>ชื่อ: {{ i.name }}</p>
-        <p>เบอร์โทร: {{ i.phoneNumber }}</p>
-        <p>อีเมล: {{ i.email }}</p>
-        <p>ที่อยู่: {{ i.address }}</p>
-        <form [formGroup]="form">
-          <div>
-            <mat-form-field appearance="outline">
-              <mat-label>สถานะจัดส่ง</mat-label>
-              <select
-                matNativeControl
-                formControlName="status"
-                [disabled]="order.isCanceled"
-              >
-                <option value="รับออเดอร์แล้ว">รับออเดอร์แล้ว</option>
-                <option value="จัดส่ง">จัดส่ง</option>
-                <option value="ยกเลิกออเดอร์">ยกเลิกออเดอร์</option>
-              </select>
-            </mat-form-field>
+        <p><strong>ชื่อ:</strong> {{ i.name }}</p>
+        <p><strong>เบอร์โทร:</strong> {{ i.phoneNumber }}</p>
+        <p><strong>อีเมล:</strong> {{ i.email }}</p>
+        <p><strong>ที่อยู่:</strong> {{ i.address }}</p>
+        <p>
+          <span><strong>จำนวนออเดอร์:</strong> {{ i.quantity }}</span>
+          <span style="margin-left: 20px;">
+            <strong>ราคาทั้งหมด:</strong> {{ i.quantity * i.preOrder.price }}
+          </span>
+        </p>
+        <p><strong>สถานะ:</strong> {{ i.status }}</p>
+        <hr />
+        <p><strong>เปลี่ยนสถานะ</strong></p>
+        <div class="row">
+          <div class="col-4" style="text-align: center">
+            <button
+              type="button"
+              class="btn btn-green-pine"
+              (click)="updateOrderStatus('รับออเดอร์แล้ว')"
+              [disabled]="i.isCanceled"
+            >
+              รับออเดอร์แล้ว
+            </button>
           </div>
-          <br />
-          <button
-            type="submit"
-            class="btn btn-green-pine"
-            [disabled]="order.isCanceled"
-            (click)="updateOrder(form)"
-          >
-            บันทึกออเดอร์
-          </button>
-        </form>
-        <br />
+          <div class="col-4" style="text-align: center">
+            <button
+              type="button"
+              class="btn btn-green-pine"
+              (click)="updateOrderStatus('จัดส่ง')"
+              [disabled]="i.isCanceled"
+            >
+              จัดส่ง
+            </button>
+          </div>
+          <div class="col-4" style="text-align: center">
+            <button
+              class="btn btn-danger"
+              (click)="updateOrderStatus('ยกเลิกออเดอร์')"
+              [disabled]="i.isCanceled"
+            >
+              ยกเลิกออเดอร์
+            </button>
+          </div>
+        </div>
+        <hr />
       </div>
     </div>
   `,
@@ -63,16 +78,16 @@ import { Order } from '@app/core/models/order.model';
 })
 export class OrderDetailModalComponent implements OnInit {
   @Input() order: Order;
-
-  form = this.fb.group({
-    status: ['', Validators.pattern('^(รับออเดอร์แล้ว|ยกเลิกออเดอร์|จัดส่ง)$')],
-  });
   constructor(private activeModal: NgbActiveModal, private fb: FormBuilder) {}
 
-  ngOnInit() {
-    this.form.patchValue({
-      status: this.order.status,
-    });
+  ngOnInit() {}
+
+  updateOrderStatus(status: string) {
+    const regex = /^(รับออเดอร์แล้ว|จัดส่ง|ยกเลิกออเดอร์)$/;
+    if (regex.test(status)) {
+      const order = { ...this.order, status };
+      this.activeModal.close(order);
+    }
   }
 
   updateOrder(form: FormGroup) {

@@ -62,9 +62,7 @@ export function reducer(
             [preOrder._id]: preOrder,
           };
         },
-        {
-          ...state.entities,
-        }
+        {}
       );
 
       return {
@@ -89,8 +87,6 @@ export function reducer(
 
     case fromPreOrders.PreOrderActionTypes.RemovePreOrderByOwnerSuccess: {
       const preOrder = action.payload;
-      console.log(state.entities);
-      console.log(preOrder);
       const { [preOrder._id]: removed, ...entities } = state.entities;
 
       return {

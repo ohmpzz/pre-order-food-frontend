@@ -52,6 +52,7 @@ export function reducer(
       };
     }
 
+    case fromGroups.GroupsActionTypes.LoadOwnerGroupsSuccess:
     case fromGroups.GroupsActionTypes.LoadGroupsSuccess: {
       const groups = action.payload;
 
@@ -62,9 +63,7 @@ export function reducer(
             [group._id]: group,
           };
         },
-        {
-          ...state.entities,
-        }
+        { ...state.entities }
       );
 
       return {

@@ -22,11 +22,11 @@ import { PreOrders } from '@app/core/models/pre-order.model';
       </p>
       <p class="product_detail_list">
         <span><mat-icon>location_on</mat-icon></span>
-        พรีออเดอร์ใน {{ i?.group.name }}
+        พรีออเดอร์ใน {{ i?.group.title }}
       </p>
       <p class="product_detail_list">
         <span><mat-icon>account_circle</mat-icon></span>
-        {{ i?.product.owner.name }}
+        พรีออเดอร์โดย {{ i?.product.owner.name }}
       </p>
     </div>
   `,

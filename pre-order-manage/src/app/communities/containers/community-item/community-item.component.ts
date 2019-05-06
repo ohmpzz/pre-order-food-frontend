@@ -34,6 +34,7 @@ export class CommunityItemComponent implements OnInit {
           };
           console.log(addUser);
           this.store.dispatch(new fromStore.AddMember(addUser));
+          this.store.dispatch(new fromStore.AddPhoneNumber(event));
         }
       })
       .unsubscribe();

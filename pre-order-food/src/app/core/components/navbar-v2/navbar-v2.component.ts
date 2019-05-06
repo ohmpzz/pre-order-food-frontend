@@ -34,10 +34,15 @@ import * as fromStore from '../../store';
               <a class="nav-link" [routerLink]="['/g']">หมู่บ้าน</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/orders']">สถานะการจัดส่ง</a>
+              <a
+                *ngIf="(userData | async)?.name"
+                class="nav-link"
+                [routerLink]="['/orders']"
+                >สถานะการจัดส่ง</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">ติดต่อเรา</a>
+              <a class="nav-link" routerLink="contact-us">ติดต่อเรา</a>
             </li>
             <li *ngIf="!(userData | async)?.name">
               <a class="btn btn-outline-primary" (click)="loginWithLine()"
@@ -93,7 +98,6 @@ export class NavbarV2Component implements OnInit {
   }
 
   logout() {
-    console.log('here');
     this.store.dispatch(new fromStore.Logout());
   }
 

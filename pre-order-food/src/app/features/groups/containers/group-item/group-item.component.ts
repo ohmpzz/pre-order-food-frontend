@@ -1,11 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddMemberComponent } from '../../components/add-member/add-member.component';
 
 import { Store } from '@ngrx/store';
 import * as fromCoreStore from '@app/core/store';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Product } from '@app/core/models/product.model';
 import { Group } from '@app/features/groups/models/group.model';
 import { AuthData } from '@app/core/models/auth.model';
@@ -14,18 +12,41 @@ import { AuthData } from '@app/core/models/auth.model';
   selector: 'group-group-item',
   template: `
     <div class="container" style="margin-top:25px">
-      <div *ngIf="(group$ | async) as i">
-        <h1>{{ i.title }}</h1>
-        <group-add-member
-          [users$]="users$"
-          (search)="onSearch($event)"
-          (create)="onAddMember($event)"
-        ></group-add-member>
-        <hr />
-      </div>
+      <div *ngIf="group$ | async as i" class="row">
+        <div class="col-10">
+          <h1>{{ i.title }}</h1>
+        </div>
+        <div class="col-2" ngbDropdown style="cursor: pointer;">
+          <p>
+            <span
+              ngbDropdownToggle
+              id="members"
+              style="font-size:16px;float: right;"
+            >
+              <i class="fas fa-cog"></i>
+              จัดการสมาชิก
+            </span>
+          </p>
 
+          <div ngbDropdownMenu aria-labelledby="members">
+            <a *ngIf="isMember$ | async" class="dropdown-item"
+              ><group-add-member
+                *ngIf="isMember$ | async"
+                [users$]="users$"
+                [credential]="credential$ | async"
+                (search)="onSearch($event)"
+                (create)="onAddMember($event)"
+              ></group-add-member
+            ></a>
+            <a class="dropdown-item"
+              ><group-members [group]="i"></group-members
+            ></a>
+          </div>
+        </div>
+      </div>
+      <hr />
       <div class="row">
-        <div *ngFor="let product of (products$ | async)" class="col-md-4">
+        <div *ngFor="let product of products$ | async" class="col-md-4">
           <shared-product-card [product]="product">
             <shared-product-card-detail [product]="product">
               <a
@@ -41,6 +62,9 @@ import { AuthData } from '@app/core/models/auth.model';
             </shared-product-card-detail>
           </shared-product-card>
         </div>
+        <div *ngIf="!(products$ | async)?.length" class="col-md-12">
+          <p style="text-align: center;">ไม่มีรายการพรีออเดอร์</p>
+        </div>
       </div>
     </div>
   `,
@@ -51,6 +75,8 @@ export class GroupItemComponent implements OnInit {
   group$: Observable<Group>;
   products$: Observable<Product[]>;
   users$: Observable<AuthData[]>;
+  credential$: Observable<AuthData>;
+  isMember$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private store: Store<fromCoreStore.CoreState>,
@@ -61,25 +87,35 @@ export class GroupItemComponent implements OnInit {
   ngOnInit() {
     this.group$ = this.store.select(fromCoreStore.getSelectedGroup);
     this.products$ = this.store.select(fromCoreStore.getAllPreOrders);
-
     this.users$ = this.store.select(fromCoreStore.getUsersFromSearch);
+    this.store.dispatch(new fromCoreStore.UpdateUser());
+    this.credential$ = this.store.select(fromCoreStore.getUserEntities);
+    this.store.select(fromCoreStore.getUserEntities).subscribe(user => {
+      if (user) {
+        this.group$.subscribe(res => {
+          if (res && res.members.some(i => i.uid == user.uid)) {
+            this.isMember$.next(true);
+          }
+        });
+      }
+    });
 
     this.initTitle();
     this.initMetaTags();
   }
 
   onAddMember(e: AuthData) {
-    // add user
-    // update phoneNumber user
     console.log(e);
-    this.group$.subscribe(res => {
-      if (res) {
-        this.store.dispatch(
-          new fromCoreStore.AddMember({ groupId: res._id, userId: e.uid })
-        );
-        this.store.dispatch(new fromCoreStore.AddPhoneNumber(e));
-      }
-    });
+    this.group$
+      .subscribe(res => {
+        if (res) {
+          this.store.dispatch(
+            new fromCoreStore.AddMember({ groupId: res._id, userId: e.uid })
+          );
+          this.store.dispatch(new fromCoreStore.AddPhoneNumber(e));
+        }
+      })
+      .unsubscribe();
   }
 
   onSearch(event) {

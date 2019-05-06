@@ -17,6 +17,7 @@ export class LandingPageComponent implements OnInit {
   groups$: Observable<Group[]>;
   lastPreorder$: Observable<Product[]>;
   ownCommuPreorder$: Observable<Product[]>;
+  user$: Observable<any>;
 
   constructor(
     private store: Store<fromCoreStore.CoreState>,
@@ -29,18 +30,11 @@ export class LandingPageComponent implements OnInit {
     this.initTitle();
     this.initMetaTags();
 
-    // this.store.dispatch(new fromStore.LoadLastPreorder());
-    // this.store.dispatch(new fromStore.LoadOwnCommunityPreorder());
-    // this.store.dispatch(new fromStore.LoadGroup());
+    this.store.dispatch(new fromCoreStore.LoadOwnerGroups());
 
-    // this.lastPreorder$ = this.store.select(fromStore.getAllLastPreorder);
-    // this.ownCommuPreorder$ = this.store.select(
-    //   fromStore.getAllOwnCommuPreorder
-    // );
-
-    this.store.dispatch(new fromCoreStore.LoadGroups());
+    this.user$ = this.store.select(fromCoreStore.getUserEntities);
     this.lastPreorder$ = this.productService.getAllPreOrders();
-    this.ownCommuPreorder$ = this.productService.getAllPreOrders();
+    this.ownCommuPreorder$ = this.productService.getOwnCommunityPreorder();
     this.groups$ = this.store.select(fromCoreStore.getAllGroups);
   }
 

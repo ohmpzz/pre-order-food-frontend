@@ -5,7 +5,7 @@ import { ProductsService } from '../../services/products.service';
 
 import { Store } from '@ngrx/store';
 import * as fromCoreStore from '@app/core/store';
-import * as fromRouterStore from '@app/store'
+import * as fromRouterStore from '@app/store';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -39,17 +39,22 @@ export class CreateProductComponent implements OnInit {
   ngOnInit() {}
 
   onCreate(e: CreateProduct) {
-    console.log(e);
-    this.store.select(fromCoreStore.getUserEntities).subscribe(res => {
-      if (res) {
-        this.productService
-          .createProduct({ ...e, ownerId: res.uid })
-          .subscribe();
-          this.store.dispatch(new fromRouterStore.Back())
-      } else {
-        return alert('error, please sign in');
-      }
-    });
+    this.store
+      .select(fromCoreStore.getUserEntities)
+      .subscribe(res => {
+        if (res) {
+          this.productService
+            .createProduct({ ...e, ownerId: res.uid })
+            .subscribe(res => {
+              if (res) {
+                this.store.dispatch(new fromRouterStore.Back());
+              }
+            });
+        } else {
+          return alert('error, please sign in');
+        }
+      })
+      .unsubscribe();
   }
 
   onUpload(e) {

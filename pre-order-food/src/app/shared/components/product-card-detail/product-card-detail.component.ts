@@ -13,7 +13,7 @@ import { PreOrders } from '@app/core/models/pre-order.model';
       <div class="row">
         <div class="col-md-8">
           <h5 class="card-title" style="font: 14px">
-            {{ i.product.title | titlecase }}
+            <strong>{{ i.product.title | titlecase }}</strong>
           </h5>
         </div>
         <div class="col-md-4">

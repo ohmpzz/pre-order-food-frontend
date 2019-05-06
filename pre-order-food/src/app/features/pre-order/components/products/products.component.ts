@@ -3,6 +3,8 @@ import {
   forwardRef,
   Input,
   ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -20,7 +22,7 @@ const PRODUCTS_ACCESSOR = {
   providers: [PRODUCTS_ACCESSOR],
   template: `
     <div class="row">
-      <div *ngFor="let i of (products | slice: 0:3)" class="col-md-4">
+      <div *ngFor="let i of products | slice: 0:3" class="col-md-4">
         <div
           class="card box-shadow check"
           (click)="selectProduct(i._id)"
@@ -34,6 +36,12 @@ const PRODUCTS_ACCESSOR = {
           <div class="card-body">
             <h5 class="card-title" style="font: 14px">
               {{ i.title | titlecase }}
+              <span
+                style="float: right; color: red;"
+                (click)="removeProduct(i)"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </span>
             </h5>
             <p class="card-text">
               {{ i.description }}
@@ -45,7 +53,7 @@ const PRODUCTS_ACCESSOR = {
       <div
         id="productCollapsed"
         [ngbCollapse]="isCollapsed"
-        *ngFor="let i of (products | slice: 3)"
+        *ngFor="let i of products | slice: 3"
         class="col-md-4"
       >
         <div
@@ -61,6 +69,12 @@ const PRODUCTS_ACCESSOR = {
           <div class="card-body">
             <h5 class="card-title" style="font: 14px">
               {{ i.title | titlecase }}
+              <span
+                style="float: right; color: red;"
+                (click)="removeProduct(i)"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </span>
             </h5>
             <p class="card-text">
               {{ i.description }}
@@ -86,6 +100,8 @@ const PRODUCTS_ACCESSOR = {
 })
 export class ProductsComponent implements ControlValueAccessor {
   @Input() products: Product[] = [];
+
+  @Output() remove = new EventEmitter<Product>();
 
   isCollapsed: boolean = true;
   value: string = null;
@@ -113,5 +129,9 @@ export class ProductsComponent implements ControlValueAccessor {
 
   existsInProducts(productId: string) {
     return this.value == productId;
+  }
+
+  removeProduct(i: Product) {
+    this.remove.emit({ ...i });
   }
 }

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { environment } from '@env/environment';
 import { CoreModule } from './core/core.module';
 import { LandingPageModule } from './features/landing-page/landing-page.module';
+import { UsModule} from './features/us/us.module'
 
 import {
   StoreRouterConnectingModule,
@@ -37,6 +38,7 @@ import { AppComponent } from './app.component';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     BrowserAnimationsModule,
     LandingPageModule,
+    UsModule
   ],
   exports: [CoreModule],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],

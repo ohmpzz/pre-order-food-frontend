@@ -3,11 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@env/environment';
 
 import { Observable, throwError, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Group } from '../models/group.model';
-
-import { mock } from './group';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +31,18 @@ export class GroupsService {
     return this.http
       .get<Group[]>(`${this.GROUP_API}`, { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
+  }
 
-    // return of([...mock]);
+  // todo: create api
+  getGroupsByOwner(): Observable<Group[]> {
+    const headers = new HttpHeaders({
+      authorization: `Bearer ${this.getCookie('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .get<Group[]>(`${this.GROUP_API}/owner`, { headers })
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   getGroupById(groupId) {
@@ -42,9 +50,6 @@ export class GroupsService {
     return this.http
       .get<Group>(`${this.GROUP_API}/${groupId}`, { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
-
-    // const group = mock.find(g => g._id == groupId);
-    // return of(group);
   }
 
   getCookie(name = 'token') {

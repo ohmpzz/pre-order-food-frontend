@@ -37,18 +37,16 @@ export function reducer(
 
     case fromOrders.OrderActionTypes.LoadOrdersByOwnerSuccess:
     case fromOrders.OrderActionTypes.LoadOrdersSuccess: {
-      const order = action.payload;
+      const orders = action.payload;
 
-      const entities = order.reduce(
-        (entities: { [id: number]: Order }, order: Order) => {
+      const entities = orders.reduce(
+        (entitie: { [id: number]: Order }, order: Order) => {
           return {
-            ...entities,
+            ...entitie,
             [order._id]: order,
           };
         },
-        {
-          ...state.entities,
-        }
+        {}
       );
 
       return {

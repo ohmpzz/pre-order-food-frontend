@@ -79,6 +79,7 @@ import { CreateOrder } from '@app/core/models/order.model';
             +
           </button>
         </p>
+        <p>ราคารวม ฿{{ qty * preOrder.price }}</p>
         <mat-hint
           >จำนวนที่เหลือ {{ preOrder.quantity + qty }}/{{
             preOrder.quantityLimit

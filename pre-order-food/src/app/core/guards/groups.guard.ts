@@ -21,10 +21,7 @@ export class GroupsGuard implements CanActivate {
   checkStore(): Observable<boolean> {
     return this.store.select(fromStore.getGroupsLoaded).pipe(
       tap(loaded => {
-        console.log('here::', loaded);
-        if (!loaded) {
-          this.store.dispatch(new fromStore.LoadGroups());
-        }
+        this.store.dispatch(new fromStore.LoadGroups());
       }),
       take(1)
     );

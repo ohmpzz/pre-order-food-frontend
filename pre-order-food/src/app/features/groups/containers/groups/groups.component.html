@@ -2,10 +2,13 @@
   <h2>กลุ่มหมู่บ้านทั้งหมด</h2>
   <hr />
   <div class="row">
-    <div *ngFor="let i of (groups$ | async)" class="col-md-4">
+    <div *ngFor="let i of groups$ | async" class="col-md-4">
       <a [routerLink]="['/g', i._id]" class="group_link">
         <shared-group-display [group]="i"></shared-group-display>
       </a>
+    </div>
+    <div *ngIf="!(groups$ | async)?.length" class="col-md-12">
+      <p style="text-align: center;">ไม่มีกลุ่มหมู่บ้าน</p>
     </div>
   </div>
 </div>

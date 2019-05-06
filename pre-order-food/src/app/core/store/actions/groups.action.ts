@@ -12,6 +12,9 @@ export enum GroupsActionTypes {
   LoadGroupById = '[Core] Load Group By Id',
   LoadGroupByIdFail = '[Core] Load Group By Id Fail',
   LoadGroupByIdSuccess = '[Core] Load Group By Id Success',
+  LoadOwnerGroups = '[Core] Load Owner Groups',
+  LoadOwnerGroupsFail = '[Core] Load Owner Groups Fail',
+  LoadOwnerGroupsSuccess = '[Core] Load Owner Groups Success',
 }
 
 export class LoadGroups implements Action {
@@ -25,6 +28,20 @@ export class LoadGroupsFail implements Action {
 
 export class LoadGroupsSuccess implements Action {
   readonly type = GroupsActionTypes.LoadGroupsSuccess;
+  constructor(public payload: Group[]) {}
+}
+
+export class LoadOwnerGroups implements Action {
+  readonly type = GroupsActionTypes.LoadOwnerGroups;
+}
+
+export class LoadOwnerGroupsFail implements Action {
+  readonly type = GroupsActionTypes.LoadOwnerGroupsFail;
+  constructor(public payload: any) {}
+}
+
+export class LoadOwnerGroupsSuccess implements Action {
+  readonly type = GroupsActionTypes.LoadOwnerGroupsSuccess;
   constructor(public payload: Group[]) {}
 }
 
@@ -59,6 +76,9 @@ export type GroupsAction =
   | LoadGroups
   | LoadGroupsFail
   | LoadGroupsSuccess
+  | LoadOwnerGroups
+  | LoadOwnerGroupsFail
+  | LoadOwnerGroupsSuccess
   | LoadGroupById
   | LoadGroupByIdFail
   | LoadGroupByIdSuccess

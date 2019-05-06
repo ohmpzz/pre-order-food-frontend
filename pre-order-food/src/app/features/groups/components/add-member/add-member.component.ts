@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +17,7 @@ import {
   distinctUntilChanged,
   switchMap,
   tap,
+  filter,
 } from 'rxjs/operators';
 
 import { AuthData } from '@app/core/models/auth.model';
@@ -57,7 +59,7 @@ import { Group } from '@app/core/models/group.model';
             />
           </div>
           <div class="form-group">
-            <label for="phoneNumber">เบอร์โทรศัพท์</label>
+            <label for="phoneNumber">เบอร์โทรศัพท์*</label>
             <input
               type="text"
               class="form-control"
@@ -84,9 +86,10 @@ import { Group } from '@app/core/models/group.model';
   styleUrls: ['./add-member.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddMemberComponent implements OnInit {
+export class AddMemberComponent implements OnInit, OnDestroy {
   @Input() group: Group;
   @Input() users$: Observable<AuthData[]>;
+  @Input() credential: AuthData;
 
   @Output() create = new EventEmitter<AuthData>();
   @Output() search = new EventEmitter();
@@ -101,11 +104,12 @@ export class AddMemberComponent implements OnInit {
   constructor(private fb: FormBuilder, private modalService: NgbModal) {}
 
   ngOnInit() {
-    console.log(this.group);
     this.users$.subscribe(res => {
       this.users = res;
     });
   }
+
+  ngOnDestroy() {}
 
   searchTerm = (text$: Observable<string>) =>
     text$.pipe(
@@ -115,7 +119,9 @@ export class AddMemberComponent implements OnInit {
         this.search.emit(term);
       }),
       switchMap(() => {
-        return this.users$.pipe(map(user => user));
+        return this.users$.pipe(
+          map(user => user.filter(res => res.uid != this.credential.uid))
+        );
       })
     );
 
@@ -134,13 +140,18 @@ export class AddMemberComponent implements OnInit {
           alert('เพิ่มสำเร็จ');
           console.log(this.form.get('phoneNumber').value);
           console.log(currentUser);
-          return this.create.emit({
+          this.create.emit({
             ...currentUser,
             phoneNumber: this.form.get('phoneNumber').value,
           });
+
+          return this.form.reset();
         }
 
-        return alert('User not  found');
+        return alert('User not found');
+      })
+      .catch(err => {
+        this.form.reset();
       });
   }
 }

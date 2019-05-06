@@ -31,12 +31,8 @@ export class GroupExistGuard implements CanActivate {
   checkStore(id): Observable<boolean> {
     return this.store.select(fromCoreStore.getGroupsLoadedById).pipe(
       tap(loaded => {
-        console.log(loaded);
-        if (!loaded) {
-          this.store.dispatch(new fromCoreStore.LoadGroupById(id));
-        }
+        this.store.dispatch(new fromCoreStore.LoadGroupById(id));
       }),
-      filter(loaded => loaded),
       take(1)
     );
   }

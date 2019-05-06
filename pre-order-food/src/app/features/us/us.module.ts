@@ -22,7 +22,7 @@ export const routes: Routes = [
     component: fromContainers.HowToUseComponent,
   },
   {
-    path: 'private-policy',
+    path: 'policy',
     component: fromContainers.PrivatePolicyComponent,
   },
   {

@@ -40,7 +40,10 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes), GroupsServiceModules, ...shared],
-  entryComponents: [fromComponents.AddMemberComponent],
+  entryComponents: [
+    fromComponents.AddMemberComponent,
+    fromComponents.MembersComponent,
+  ],
   declarations: [...fromComponents.components, ...fromContainers.containers],
 })
 export class GroupsModule {}

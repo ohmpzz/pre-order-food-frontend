@@ -45,9 +45,7 @@ export function reducer(
             [product._id]: product,
           };
         },
-        {
-          ...state.entities,
-        }
+        { ...state.entities }
       );
 
       return {
@@ -67,6 +65,16 @@ export function reducer(
         ...state,
         loaded: true,
         loading: false,
+        entities,
+      };
+    }
+
+    case fromProducts.ProductsActionTypes.RemoveProductByIdSuccess: {
+      const product = action.payload;
+      const { [product._id]: removed, ...entities } = state.entities;
+
+      return {
+        ...state,
         entities,
       };
     }

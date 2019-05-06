@@ -82,7 +82,7 @@ export class OrderCardDetailComponent implements OnInit {
   @Output() cancel = new EventEmitter<Order>();
 
   get canCancel() {
-    if (!this.order.isCanceled) {
+    if (!this.order.isCanceled && this.order.status == 'รับออเดอร์แล้ว') {
       return (
         moment().format(this.order.preOrder.orderTime.end) > moment().format()
       );

@@ -37,4 +37,16 @@ export class ProductEffects {
       );
     })
   );
+
+  @Effect()
+  removeProductById$ = this.action$.pipe(
+    ofType(productActions.ProductsActionTypes.RemoveProductById),
+    map((action: productActions.RemoveProductById) => action.payload),
+    switchMap(product => {
+      return this.productService.removeProductById(product._id).pipe(
+        map(() => new productActions.RemoveProductByIdSuccess(product)),
+        catchError(error => of(new productActions.RemoveProductByIdFail(error)))
+      );
+    })
+  );
 }

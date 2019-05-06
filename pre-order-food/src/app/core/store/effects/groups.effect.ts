@@ -35,6 +35,17 @@ export class GroupEffects {
   );
 
   @Effect()
+  loadOwnerGroups$ = this.action$.pipe(
+    ofType(groupActions.GroupsActionTypes.LoadOwnerGroups),
+    switchMap(() => {
+      return this.groupService.getGroupsByOwner().pipe(
+        map(groups => new groupActions.LoadOwnerGroupsSuccess(groups)),
+        catchError(err => of(new groupActions.LoadOwnerGroupsFail(err)))
+      );
+    })
+  );
+
+  @Effect()
   loadGroupById$ = this.action$.pipe(
     ofType(groupActions.GroupsActionTypes.LoadGroupById),
     map((action: groupActions.LoadGroupById) => action.payload),

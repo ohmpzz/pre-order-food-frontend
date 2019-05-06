@@ -41,6 +41,18 @@ export class ProductsService {
       .get<Product>(`${this.PRODUCT_API}/${productId}`, { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
+
+  removeProductById(productId) {
+    const headers = new HttpHeaders({
+      authorization: `Bearer ${this.getCookie('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .delete(`${this.PRODUCT_API}/${productId}`, { headers })
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
   getCookie(name = 'token') {
     const match = document.cookie.match(
       new RegExp('(^| )' + name + '=([^;]+)')

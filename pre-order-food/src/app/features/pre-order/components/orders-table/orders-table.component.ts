@@ -14,13 +14,21 @@ import { Order } from '@app/core/models/order.model';
 @Component({
   selector: 'pre-order-orders-table',
   template: `
-    <p>เกี๊ยวซ่า</p>
+    <div *ngIf="orders[0]?.preOrder as o">
+      <h4>{{ o.product.title }}</h4>
+      <p>
+        จัดส่งที่ {{ o.group.title }}, เวลาจัดส่ง
+        {{ o.checkoutTime | date: 'd/M/yy' }}
+      </p>
+    </div>
+
     <table class="table table-striped">
       <thead>
         <tr style="text-align: center;">
           <th scope="col">เลขที่ออเดอร์</th>
           <th scope="col">ชื่อ</th>
           <th scope="col">จำนวน</th>
+          <th scope="col">ราคารวม</th>
           <th scope="col">สถานะ</th>
           <th scope="col">#</th>
         </tr>
@@ -30,6 +38,7 @@ import { Order } from '@app/core/models/order.model';
           <td scope="row">{{ i._id }}</td>
           <td scope="row">{{ i.name }}</td>
           <td scope="row">{{ i.quantity }}</td>
+          <td scope="row">{{ i.quantity * i.preOrder.price }}</td>
           <td scope="row">{{ i.status }}</td>
           <td scope="row" ngbDropdown placement="left-bottom" class="dropdown">
             <mat-icon
@@ -40,7 +49,6 @@ import { Order } from '@app/core/models/order.model';
             >
             <div ngbDropdownMenu aria-labelledby="optionDropdown">
               <a class="dropdown-item" (click)="openModal(i)">รายละเอียด</a>
-              <a class="dropdown-item">ยกเลิก</a>
             </div>
           </td>
         </tr>
@@ -53,7 +61,7 @@ import { Order } from '@app/core/models/order.model';
 export class OrdersTableComponent implements OnInit {
   @Input() orders: Order;
 
-  @Output() update = new EventEmitter<{ _id: any; status: string }>();
+  @Output() update = new EventEmitter<Order>();
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {}
@@ -63,7 +71,6 @@ export class OrdersTableComponent implements OnInit {
     modalRef.componentInstance.order = order;
     modalRef.result
       .then(res => {
-        console.log(res);
         this.update.emit(res);
       })
       .catch(e => {

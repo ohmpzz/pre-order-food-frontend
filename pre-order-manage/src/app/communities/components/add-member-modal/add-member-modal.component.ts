@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable } from 'rxjs';
@@ -34,6 +34,7 @@ export class AddMemberModalComponent implements OnInit {
 
   form: FormGroup = this.fb.group({
     search: '',
+    phoneNumber: ['', Validators.required],
   });
 
   users: User[];
@@ -70,7 +71,10 @@ export class AddMemberModalComponent implements OnInit {
           user => user == this.form.get('search').value
         );
         if (currentUser) {
-          return this.create.emit(currentUser);
+          return this.create.emit({
+            ...currentUser,
+            phoneNumber: this.form.get('phoneNumber').value,
+          });
         }
 
         return alert('User not  found');

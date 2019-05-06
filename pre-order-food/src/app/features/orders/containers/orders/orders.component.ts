@@ -13,13 +13,16 @@ import { Order } from '@app/core/models/order.model';
       <h1>สถานะการจัดส่ง</h1>
       <hr />
       <div class="row">
-        <div *ngFor="let order of (orders$ | async)" class="col-md-4">
+        <div *ngFor="let order of orders$ | async" class="col-md-4">
           <shared-product-card [product]="order.preOrder">
             <order-order-card-detail
               [order]="order"
               (cancel)="onCancel($event)"
             ></order-order-card-detail>
           </shared-product-card>
+        </div>
+        <div *ngIf="!(orders$ | async)?.length" class="col-md-12">
+          <p style="text-align: center;">ไม่มีรายการออเดอร์</p>
         </div>
       </div>
     </div>

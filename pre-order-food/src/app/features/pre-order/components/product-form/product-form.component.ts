@@ -27,6 +27,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
             formControlName="title"
             name="titleProduct"
           />
+          <mat-error
+            *ngIf="form.get('title').hasError"
+            style="margin-top: 16px;"
+          >
+            กรุณาพิมพ์ชื่อสินค้า 5 ตัวอักษรขึ้นไป
+          </mat-error>
         </mat-form-field>
       </p>
       <p>
@@ -45,6 +51,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
             cdkAutosizeMaxRows="6"
             name="description"
           ></textarea>
+          <mat-error
+            *ngIf="form.get('description').hasError"
+            style="margin-top: 16px;"
+          >
+            กรุณาพิมพ์รายละเอียดสินค้า
+          </mat-error>
         </mat-form-field>
       </p>
       <div class="form-group">
@@ -59,17 +71,23 @@ import { Observable, BehaviorSubject } from 'rxjs';
       </div>
       <div class="album">
         <img
-          *ngFor="let i of (previews$ | async)"
+          *ngFor="let i of previews$ | async"
           [src]="i"
           class="img-thumbnail"
         />
+      </div>
+      <div *ngIf="isUploading$ | async">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        กำลังอัปโหลด
       </div>
       <p>
         <button
           type="submit"
           class="btn btn-green-pine"
           (click)="createProduct(form)"
-          [disabled]="form.invalid"
+          [disabled]="form.invalid || (isUploading$ | async)"
         >
           เพิ่มสินค้า
         </button>
@@ -85,10 +103,11 @@ export class ProductFormComponent implements OnInit {
   @Output() create = new EventEmitter<CreateProduct>();
   @Output() files = new EventEmitter<FileList>();
 
+  isUploading$ = new BehaviorSubject(false);
   previews$ = new BehaviorSubject([]);
   form: FormGroup = this.fb.group({
-    title: ['', Validators.required],
-    description: [''],
+    title: ['', [Validators.required, Validators.minLength(5)]],
+    description: ['', Validators.required],
   });
 
   constructor(private fb: FormBuilder) {}
@@ -96,6 +115,9 @@ export class ProductFormComponent implements OnInit {
   ngOnInit() {
     this.imagesPath$.subscribe(res => {
       console.log(res);
+      if (!!res.length) {
+        this.isUploading$.next(false);
+      }
     });
   }
 
@@ -123,6 +145,7 @@ export class ProductFormComponent implements OnInit {
     }
     this.previewImages(files);
 
+    this.isUploading$.next(true);
     this.files.emit(files);
   }
 

@@ -31,7 +31,6 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(res => {
-      console.log(res);
       if (res) {
         this.store.dispatch(new fromCoreStore.LoadOrders(res.preorderId));
       }

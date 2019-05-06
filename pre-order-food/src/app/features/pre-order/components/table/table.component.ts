@@ -25,7 +25,7 @@ import { PreOrders } from '../../models/pre-order';
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let i of (preOrder | async)" style="text-align: center;">
+        <tr *ngFor="let i of preOrder | async" style="text-align: center;">
           <th scope="row">{{ i._id }}</th>
           <td>{{ i.product.title }}</td>
           <td>{{ i.group.title }}</td>
@@ -63,11 +63,7 @@ export class TableComponent implements OnInit {
   @Output() remove = new EventEmitter<PreOrders>();
   constructor() {}
 
-  ngOnInit() {
-    this.preOrder.subscribe(res => {
-      console.log(res);
-    });
-  }
+  ngOnInit() {}
 
   removePreOrder(preOrder: PreOrders) {
     this.remove.emit({ ...preOrder });

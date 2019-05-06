@@ -9,6 +9,9 @@ export enum ProductsActionTypes {
   LoadProductById = '[Core] Load Product By Id',
   LoadProductByIdFail = '[Core] Load Product By Id Fail',
   LoadProductByIdSuccess = '[Core] Load Product By Id Success',
+  RemoveProductById = '[Core] Remove Product By Id',
+  RemoveProductByIdFail = '[Core] Remove Product By Id Fail',
+  RemoveProductByIdSuccess = '[Core] Remove Product By Id Success',
 }
 
 export class LoadProducts implements Action {
@@ -40,10 +43,26 @@ export class LoadProductByIdSuccess implements Action {
   constructor(public payload: Product) {}
 }
 
+export class RemoveProductById implements Action {
+  readonly type = ProductsActionTypes.RemoveProductById;
+  constructor(public payload: Product) {}
+}
+export class RemoveProductByIdFail implements Action {
+  readonly type = ProductsActionTypes.RemoveProductByIdFail;
+  constructor(public payload: any) {}
+}
+export class RemoveProductByIdSuccess implements Action {
+  readonly type = ProductsActionTypes.RemoveProductByIdSuccess;
+  constructor(public payload: Product) {}
+}
+
 export type ProductsAction =
   | LoadProducts
   | LoadProductsFail
   | LoadProductsSuccess
   | LoadProductById
   | LoadProductByIdFail
-  | LoadProductByIdSuccess;
+  | LoadProductByIdSuccess
+  | RemoveProductById
+  | RemoveProductByIdFail
+  | RemoveProductByIdSuccess;

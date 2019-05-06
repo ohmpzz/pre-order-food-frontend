@@ -1,0 +1,12 @@
+.user {
+  text-align: center;
+  padding-right: 0;
+  top: -5px;
+  &_img {
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+}
