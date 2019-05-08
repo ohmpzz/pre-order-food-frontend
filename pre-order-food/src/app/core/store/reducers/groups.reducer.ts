@@ -86,6 +86,20 @@ export function reducer(
         entities,
       };
     }
+
+    case fromGroups.GroupsActionTypes.AddMemberSuccess:
+    case fromGroups.GroupsActionTypes.RemoveMemberSuccess: {
+      const { ...group } = action.payload;
+      const entities = {
+        ...state.entities,
+        [group._id]: group,
+      };
+
+      return {
+        ...state,
+        entities,
+      };
+    }
   }
 
   return state;

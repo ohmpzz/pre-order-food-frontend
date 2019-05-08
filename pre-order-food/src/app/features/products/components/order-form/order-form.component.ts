@@ -111,7 +111,7 @@ import { CreateOrder } from '@app/core/models/order.model';
             type="submit"
             class="btn btn-dark order_form_btn_order"
             (click)="createOrder(form)"
-            [disabled]="form.invalid"
+            [disabled]="form.invalid || remainQty < 1"
           >
             สั่งจอง
           </button>
@@ -130,7 +130,7 @@ export class OrderFormComponent implements OnInit {
 
   @Output() create = new EventEmitter<CreateOrder>();
 
-  qty: number = 1;
+  qty: number = 0;
   form: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(50)]],
     phoneNumber: ['', [Validators.required, Validators.minLength(10)]],
@@ -145,8 +145,13 @@ export class OrderFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
+    if (
+      this.preOrder &&
+      this.preOrder.quantityLimit - this.preOrder.quantity > 0
+    ) {
+      this.qty = 1;
+    }
     if (this.user) {
-      console.log(this.user);
       this.form.patchValue({
         name: this.user.name,
         email: this.user.email,

@@ -19,7 +19,10 @@ export class GroupEffects {
     ofType(groupActions.GroupsActionTypes.AddMember),
     map((action: groupActions.AddMember) => action.payload),
     switchMap((payload: { groupId: string; userId: string }) => {
-      return this.groupService.addMember(payload.groupId, payload.userId);
+      return this.groupService.addMember(payload.groupId, payload.userId).pipe(
+        map(community => new groupActions.AddMemberSuccess(community)),
+        catchError(error => of(new groupActions.AddMemberFail(error)))
+      );
     })
   );
 
@@ -54,6 +57,21 @@ export class GroupEffects {
         map(group => new groupActions.LoadGroupByIdSuccess(group)),
         catchError(error => of(new groupActions.LoadGroupByIdFail(error)))
       );
+    })
+  );
+
+  @Effect()
+  removeMember$ = this.action$.pipe(
+    ofType(groupActions.GroupsActionTypes.RemoveMember),
+    map((action: groupActions.RemoveMember) => action.payload),
+    switchMap((payload: any) => {
+      console.log(payload);
+      return this.groupService
+        .removeMember(payload.groupId, payload.userId)
+        .pipe(
+          map(group => new groupActions.RemoveMemberSuccess(group)),
+          catchError(error => of(new groupActions.RemoveMemberFail(error)))
+        );
     })
   );
 }

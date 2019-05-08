@@ -52,6 +52,16 @@ export class GroupsService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
+  removeMember(groupId, userId): Observable<Group> {
+    const headers = new HttpHeaders({
+      authorization: `Bearer ${this.getCookie()}`,
+      'Content-Type': 'application/json',
+    });
+    return this.http
+      .put(`${this.GROUP_API}/${groupId}/members`, { userId }, { headers })
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
   getCookie(name = 'token') {
     const match = document.cookie.match(
       new RegExp('(^| )' + name + '=([^;]+)')

@@ -15,6 +15,9 @@ export enum GroupsActionTypes {
   LoadOwnerGroups = '[Core] Load Owner Groups',
   LoadOwnerGroupsFail = '[Core] Load Owner Groups Fail',
   LoadOwnerGroupsSuccess = '[Core] Load Owner Groups Success',
+  RemoveMember = '[Communities] Remove Member',
+  RemoveMemberFail = '[Communities] Remove Member Fail',
+  RemoveMemberSuccess = '[Communities] Remove Member Success',
 }
 
 export class LoadGroups implements Action {
@@ -72,6 +75,21 @@ export class AddMemberSuccess implements Action {
   constructor(public payload: Group) {}
 }
 
+export class RemoveMember implements Action {
+  readonly type = GroupsActionTypes.RemoveMember;
+  constructor(public payload: any) {}
+}
+
+export class RemoveMemberFail implements Action {
+  readonly type = GroupsActionTypes.RemoveMemberFail;
+  constructor(public payload: any) {}
+}
+
+export class RemoveMemberSuccess implements Action {
+  readonly type = GroupsActionTypes.RemoveMemberSuccess;
+  constructor(public payload: Group) {}
+}
+
 export type GroupsAction =
   | LoadGroups
   | LoadGroupsFail
@@ -84,4 +102,7 @@ export type GroupsAction =
   | LoadGroupByIdSuccess
   | AddMember
   | AddMemberFail
-  | AddMemberSuccess;
+  | AddMemberSuccess
+  | RemoveMember
+  | RemoveMemberFail
+  | RemoveMemberSuccess;

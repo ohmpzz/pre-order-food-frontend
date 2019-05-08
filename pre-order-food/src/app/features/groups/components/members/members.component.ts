@@ -69,5 +69,7 @@ export class MembersComponent implements OnInit {
     this.modalService.open(content, { ariaLabelledBy: 'member' });
   }
 
-  removeMember(user) {}
+  removeMember(user) {
+    this.remove.emit(user);
+  }
 }

@@ -39,7 +39,10 @@ import { AuthData } from '@app/core/models/auth.model';
               ></group-add-member
             ></a>
             <a class="dropdown-item"
-              ><group-members [group]="i"></group-members
+              ><group-members
+                [group]="i"
+                (remove)="onRemoveMember($event)"
+              ></group-members
             ></a>
           </div>
         </div>
@@ -116,6 +119,26 @@ export class GroupItemComponent implements OnInit {
         }
       })
       .unsubscribe();
+  }
+
+  onRemoveMember(event: AuthData) {
+    console.log(event);
+    const remove = confirm('ยืนยันลบสมาชิก');
+    if (remove) {
+      this.group$
+        .subscribe((commu: Group) => {
+          if (commu) {
+            const removeUser = {
+              groupId: commu._id,
+              userId: event.uid,
+            };
+            this.store.dispatch(
+              new fromCoreStore.RemoveMember({ ...removeUser })
+            );
+          }
+        })
+        .unsubscribe();
+    }
   }
 
   onSearch(event) {

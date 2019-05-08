@@ -196,7 +196,7 @@ export class CreatePreOrderComponent implements OnInit {
       this.store.dispatch(new fromCoreStore.LoadProducts(res.uid));
       this.user = res;
     });
-    this.store.dispatch(new fromCoreStore.LoadGroups());
+    this.store.dispatch(new fromCoreStore.LoadOwnerGroups());
     this.product$ = this.store.select(fromCoreStore.getAllProducts);
     this.community$ = this.store.select(fromCoreStore.getAllGroups);
 

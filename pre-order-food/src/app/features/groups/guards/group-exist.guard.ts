@@ -3,7 +3,7 @@ import { GroupsServiceModules } from '../groups-service.module';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap, take, switchMap, map, filter } from 'rxjs/operators';
 import { Group } from '@app/core/models/group.model';
 
@@ -17,7 +17,7 @@ export class GroupExistGuard implements CanActivate {
     const id = route.params.groupId;
     return this.checkStore(id).pipe(
       switchMap(() => {
-        return this.hasGroup(id);
+        return of(true);
       })
     );
   }

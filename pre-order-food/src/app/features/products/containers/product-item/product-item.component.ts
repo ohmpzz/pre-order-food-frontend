@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
+import * as fromRoot from '@app/store';
 import { Store } from '@ngrx/store';
 import * as fromCoreStore from '@app/core/store';
 import { Observable } from 'rxjs';
@@ -55,25 +56,34 @@ export class ProductItemComponent implements OnInit {
   onCreateOrder(e: CreateOrder) {
     console.log(e);
     this.productService.createOrder(e).subscribe(res => {
+      console.log(res);
       alert('สั่งจองสำเร็จ');
+      this.store.dispatch(new fromRoot.Go({ path: ['/orders'] }));
     });
   }
 
   private setTitle() {
-    this.preOrder$.subscribe((res: PreOrders) => {
-      console.log(res);
-      this.title.setTitle(`${res.product.title} จาก${res.group.title}`);
-    });
+    this.preOrder$
+      .subscribe((res: PreOrders) => {
+        if (res) {
+          this.title.setTitle(`${res.product.title} จาก${res.group.title}`);
+        }
+      })
+      .unsubscribe();
   }
 
   private setMeta() {
-    this.preOrder$.subscribe((res: PreOrders) => {
-      this.meta.updateTag({
-        name: 'description',
-        content: `${res.product.title} ราคา ${res.price} ${
-          res.product.description
-        }`,
-      });
-    });
+    this.preOrder$
+      .subscribe((res: PreOrders) => {
+        if (res) {
+          this.meta.updateTag({
+            name: 'description',
+            content: `${res.product.title} ราคา ${res.price} ${
+              res.product.description
+            }`,
+          });
+        }
+      })
+      .unsubscribe();
   }
 }
